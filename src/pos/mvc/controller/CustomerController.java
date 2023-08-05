@@ -110,7 +110,21 @@ public class CustomerController {
         preparedStatement.setString(7, customer.getCustProvince());
         preparedStatement.setString(8, customer.getCustZip());
         preparedStatement.setString(9, customer.getCustID());
-        // System.out.println("Pass");
+        
+        if(preparedStatement.executeUpdate() > 0) {
+            return "Success";
+        } else {
+            return "Fail";
+        }
+    }
+    
+    public String deleteCustomer(String CustID) throws SQLException {
+        Connection connection = DBConnection.getInstance().getConnection();
+        
+        String query = "DELETE FROM Customer WHERE CustID = ?";
+        
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, CustID);
         
         if(preparedStatement.executeUpdate() > 0) {
             return "Success";
