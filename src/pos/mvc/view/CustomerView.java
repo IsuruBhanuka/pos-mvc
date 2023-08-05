@@ -403,8 +403,8 @@ public class CustomerView extends javax.swing.JFrame {
                     custTitleTextField.getText(),
                     custNameTextField.getText(),
                     custDOBTextField.getText(),
-                    custAddressTextField.getText(),
                     Double.valueOf(custSalaryTextField.getText()),
+                    custAddressTextField.getText(),
                     custCityTextField.getText(),
                     custProvinceTextField.getText(),
                     custPostalCodeTextField.getText());
@@ -415,6 +415,7 @@ public class CustomerView extends javax.swing.JFrame {
             String response = customerController.saveCustomer(customer);
             JOptionPane.showMessageDialog(this, response);
             clear();
+            displayAllCustomers();
         } catch (SQLException ex) {
             Logger.getLogger(CustomerView.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(this, ex.getMessage());
@@ -455,8 +456,6 @@ public class CustomerView extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(CustomerView.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(this, ex.getMessage());
-        }
-        
-        
+        }    
     }
 }
