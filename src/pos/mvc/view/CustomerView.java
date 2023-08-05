@@ -99,6 +99,8 @@ public class CustomerView extends javax.swing.JFrame {
             .addComponent(headerLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
         );
 
+        formPanel.setPreferredSize(new java.awt.Dimension(800, 260));
+
         custIDLabel.setText("Customer ID");
 
         custIDTextField.setMinimumSize(new java.awt.Dimension(150, 25));
@@ -177,7 +179,6 @@ public class CustomerView extends javax.swing.JFrame {
 
         deleteCustomerButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         deleteCustomerButton.setText("Delete Customer");
-        deleteCustomerButton.setActionCommand("Delete Customer");
         deleteCustomerButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 deleteCustomerButtonActionPerformed(evt);
@@ -314,7 +315,7 @@ public class CustomerView extends javax.swing.JFrame {
         basePanelLayout.setHorizontalGroup(
             basePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(headerPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(formPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(formPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 804, Short.MAX_VALUE)
             .addComponent(tablePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         basePanelLayout.setVerticalGroup(
