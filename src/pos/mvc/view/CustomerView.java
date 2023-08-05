@@ -4,16 +4,26 @@
  */
 package pos.mvc.view;
 
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import pos.mvc.controller.CustomerController;
+import pos.mvc.model.CustomerModel;
+
 /**
  *
  * @author BHANUKA
  */
 public class CustomerView extends javax.swing.JFrame {
-
+    
+    private CustomerController customerController;
+    
     /**
      * Creates new form CustomerView
      */
     public CustomerView() {
+        customerController = new CustomerController();
         initComponents();
     }
 
@@ -304,6 +314,7 @@ public class CustomerView extends javax.swing.JFrame {
 
     private void saveCustomerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveCustomerButtonActionPerformed
         // TODO add your handling code here:
+        saveCustomer();
     }//GEN-LAST:event_saveCustomerButtonActionPerformed
 
     private void updateCustomerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateCustomerButtonActionPerformed
@@ -349,4 +360,29 @@ public class CustomerView extends javax.swing.JFrame {
     private javax.swing.JButton saveCustomerButton;
     private javax.swing.JButton updateCustomerButton;
     // End of variables declaration//GEN-END:variables
+
+public void saveCustomer() {
+        
+            CustomerModel customer = new CustomerModel(
+                    custIDTextField.getText(),
+                    custTitleTextField.getText(),
+                    custNameTextField.getText(),
+                    custDOBTextField.getText(),
+                    custAddressTextField.getText(),
+                    Double.valueOf(custSalaryTextField.getText()),
+                    custCityTextField.getText(),
+                    custProvinceTextField.getText(),
+                    custPostalCodeTextField.getText());
+            
+            System.out.println("Customer : " + customer.toString());
+        
+        try {
+            String response = customerController.saveCustomer(customer);
+            JOptionPane.showMessageDialog(this, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(CustomerView.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+        }
+}
+    
 }
