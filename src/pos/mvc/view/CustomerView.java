@@ -176,7 +176,7 @@ public class CustomerView extends javax.swing.JFrame {
         });
 
         deleteCustomerButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        deleteCustomerButton.setText("Update Customer");
+        deleteCustomerButton.setText("Delete Customer");
         deleteCustomerButton.setActionCommand("Delete Customer");
         deleteCustomerButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -291,6 +291,11 @@ public class CustomerView extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        custTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                custTableMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(custTable);
 
         javax.swing.GroupLayout tablePanelLayout = new javax.swing.GroupLayout(tablePanel);
@@ -351,6 +356,7 @@ public class CustomerView extends javax.swing.JFrame {
 
     private void updateCustomerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateCustomerButtonActionPerformed
         // TODO add your handling code here:
+        updateCustomer();
     }//GEN-LAST:event_updateCustomerButtonActionPerformed
 
     private void deleteCustomerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteCustomerButtonActionPerformed
@@ -360,6 +366,11 @@ public class CustomerView extends javax.swing.JFrame {
     private void custPostalCodeTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_custPostalCodeTextFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_custPostalCodeTextFieldActionPerformed
+
+    private void custTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_custTableMouseClicked
+        // TODO add your handling code here:
+        searchCustomer();
+    }//GEN-LAST:event_custTableMouseClicked
 
     
 
@@ -408,8 +419,6 @@ public class CustomerView extends javax.swing.JFrame {
                     custCityTextField.getText(),
                     custProvinceTextField.getText(),
                     custPostalCodeTextField.getText());
-            
-            System.out.println("Customer : " + customer.toString());
         
         try {
             String response = customerController.saveCustomer(customer);
@@ -429,7 +438,7 @@ public class CustomerView extends javax.swing.JFrame {
         custDOBTextField.setText("");
         custAddressTextField.setText("");
         custSalaryTextField.setText("");
-        custCityTextField.setText("");
+        custCityTextField.setText(""); 
         custProvinceTextField.setText("");
         custPostalCodeTextField.setText("");
     }
@@ -458,4 +467,51 @@ public class CustomerView extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, ex.getMessage());
         }    
     }
-}
+    
+    private void searchCustomer() {
+        try {
+            String custID = custTable.getValueAt(custTable.getSelectedRow(), 0).toString();
+            CustomerModel customerModel = customerController.getCustomer(custID);
+            
+            if (customerModel != null) {
+                custIDTextField.setText(customerModel.getCustID());
+                custTitleTextField.setText(customerModel.getCustTitle());
+                custNameTextField.setText(customerModel.getCustName());
+                custDOBTextField.setText(customerModel.getCustDOB());
+                custAddressTextField.setText(customerModel.getCustAddress());
+                custSalaryTextField.setText(Double.toString(customerModel.getCustSalary()));
+                custCityTextField.setText(customerModel.getCustCity()); 
+                custProvinceTextField.setText(customerModel.getCustProvince());
+                custPostalCodeTextField.setText(customerModel.getCustZip());
+            } else {
+                JOptionPane.showMessageDialog(this, "Customer Not Found");
+            }      
+        } catch (SQLException ex) {
+            Logger.getLogger(CustomerView.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+        }
+    }
+    
+    public void updateCustomer() {
+        CustomerModel customer = new CustomerModel(
+                    custIDTextField.getText(),
+                    custTitleTextField.getText(),
+                    custNameTextField.getText(),
+                    custDOBTextField.getText(),
+                    Double.valueOf(custSalaryTextField.getText()),
+                    custAddressTextField.getText(),
+                    custCityTextField.getText(),
+                    custProvinceTextField.getText(),
+                    custPostalCodeTextField.getText());
+        
+        try {
+            String response = customerController.updateCustomer(customer);
+            JOptionPane.showMessageDialog(this, response);
+            clear();
+            displayAllCustomers();
+        } catch (SQLException ex) {
+            Logger.getLogger(CustomerView.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+        }
+    }
+ }

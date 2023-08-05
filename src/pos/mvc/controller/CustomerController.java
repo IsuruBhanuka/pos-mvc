@@ -68,4 +68,54 @@ public class CustomerController {
         }
         return customerModels;
     }
+    
+    public CustomerModel getCustomer(String custID) throws SQLException {
+        Connection connection = DBConnection.getInstance().getConnection();
+            
+        String query = "SELECT * FROM customer WHERE CustID = ?"; 
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, custID);
+         
+        ResultSet rSet = preparedStatement.executeQuery();
+        while (rSet.next()) {
+            CustomerModel cm = new CustomerModel(
+                    rSet.getString(1), 
+                    rSet.getString(2), 
+                    rSet.getString(3), 
+                    rSet.getString(4), 
+                    rSet.getDouble(5), 
+                    rSet.getString(6), 
+                    rSet.getString(7), 
+                    rSet.getString(8), 
+                    rSet.getString(9));
+            return cm;
+        }
+        
+        return null;
+    }
+    
+    public String updateCustomer(CustomerModel customer) throws SQLException {
+        Connection connection = DBConnection.getInstance().getConnection();
+        
+        String query = "UPDATE Customer SET CustTitle = ?, CustName = ?, DOB = ?, salary = ?, CustAddress = ?, City = ?, Province = ?, PostalCode = ? WHERE CustID = ?";
+        
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        
+        preparedStatement.setString(1, customer.getCustTitle());
+        preparedStatement.setString(2, customer.getCustName());
+        preparedStatement.setString(3, customer.getCustDOB());
+        preparedStatement.setDouble(4, customer.getCustSalary());
+        preparedStatement.setString(5, customer.getCustAddress());
+        preparedStatement.setString(6, customer.getCustCity());
+        preparedStatement.setString(7, customer.getCustProvince());
+        preparedStatement.setString(8, customer.getCustZip());
+        preparedStatement.setString(9, customer.getCustID());
+        // System.out.println("Pass");
+        
+        if(preparedStatement.executeUpdate() > 0) {
+            return "Success";
+        } else {
+            return "Fail";
+        }
+    }
 }

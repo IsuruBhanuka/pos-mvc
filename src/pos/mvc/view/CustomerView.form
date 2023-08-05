@@ -402,7 +402,7 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="12" style="1"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Update Customer"/>
+                <Property name="text" type="java.lang.String" value="Delete Customer"/>
                 <Property name="actionCommand" type="java.lang.String" value="Delete Customer"/>
               </Properties>
               <Events>
@@ -444,6 +444,9 @@
                       </Table>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="custTableMouseClicked"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
