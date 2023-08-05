@@ -15,8 +15,8 @@ public class CustomerModel {
     private String custTitle;
     private String custName;
     private String custDOB;
-    private String custAddress;
     private Double custSalary;
+    private String custAddress; 
     private String custCity;
     private String custProvince;
     private String custZip;
@@ -24,13 +24,13 @@ public class CustomerModel {
     public CustomerModel() {
     }
 
-    public CustomerModel(String custID, String custTitle, String custName, String custDOB, String custAddress, Double custSalary, String custCity, String custProvince, String custZip) {
+    public CustomerModel(String custID, String custTitle, String custName, String custDOB, Double custSalary, String custAddress, String custCity, String custProvince, String custZip) {
         this.custID = custID;
         this.custTitle = custTitle;
         this.custName = custName;
         this.custDOB = custDOB;
-        this.custAddress = custAddress;
         this.custSalary = custSalary;
+        this.custAddress = custAddress;
         this.custCity = custCity;
         this.custProvince = custProvince;
         this.custZip = custZip;

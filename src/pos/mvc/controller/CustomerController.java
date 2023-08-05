@@ -9,6 +9,8 @@ import java.sql.Connection;
 import pos.mvc.db.DBConnection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.sql.ResultSet;
 
 
 /**
@@ -38,6 +40,32 @@ public class CustomerController {
         } else {
             return "Fail";
         }
+    }
     
+    public ArrayList<CustomerModel> getAllCustomers() throws SQLException {
+        Connection connection = DBConnection.getInstance().getConnection();
+            
+        String query = "SELECT * FROM customer";
+            
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        
+        ResultSet rSet = preparedStatement.executeQuery();
+        
+        ArrayList<CustomerModel> customerModels = new ArrayList<>();
+        
+        while (rSet.next()) {
+            CustomerModel cm = new CustomerModel(
+                    rSet.getString(1), 
+                    rSet.getString(2), 
+                    rSet.getString(3), 
+                    rSet.getString(4), 
+                    rSet.getDouble(5), 
+                    rSet.getString(6), 
+                    rSet.getString(7), 
+                    rSet.getString(8), 
+                    rSet.getString(9));
+            customerModels.add(cm);
+        }
+        return customerModels;
     }
 }
