@@ -279,7 +279,7 @@ public class ItemView extends javax.swing.JFrame {
     }//GEN-LAST:event_saveItemButtonActionPerformed
 
     private void updateItemButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateItemButtonActionPerformed
-        // TODO add your handling code here:
+        updateItem();
        
     }//GEN-LAST:event_updateItemButtonActionPerformed
 
@@ -381,6 +381,25 @@ public class ItemView extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Item not found");
             }
         } catch (SQLException ex) {
+            Logger.getLogger(ItemView.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+        }
+    }
+    
+    public void updateItem() {
+        try {
+            ItemModel item = new ItemModel(
+                    itemCodeText.getText(),
+                    descripText.getText(),
+                    packSizeText.getText(),
+                    Double.valueOf(unitPriceText.getText()),
+                    Integer.valueOf(qtyOnHandText.getText()));
+            
+            String response = itemController.updateItem(item);
+            JOptionPane.showMessageDialog(this, response);
+            clear();
+            displayAllItems();
+        } catch (SQLException ex) { 
             Logger.getLogger(ItemView.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(this, ex.getMessage());
         }

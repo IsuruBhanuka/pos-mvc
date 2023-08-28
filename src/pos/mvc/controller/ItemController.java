@@ -45,7 +45,7 @@ public class ItemController {
         
         String query = "INSERT INTO item VALUES (?, ?, ?, ?, ?)";
         
-        PreparedStatement preparedStatement = connection.prepareCall(query);
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
         
         preparedStatement.setString(1, item.getItemCode());
         preparedStatement.setString(2, item.getDescription());
@@ -65,7 +65,7 @@ public class ItemController {
         
         String query = "SELECT * FROM item WHERE ItemCode = ?";
         
-        PreparedStatement preparedStatement = connection.prepareCall(query);
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
         
         preparedStatement.setString(1, itemCode);
         
@@ -81,5 +81,25 @@ public class ItemController {
             return item;
         }
         return null;
+    }
+    
+    public String updateItem(ItemModel item) throws SQLException {
+        Connection connection = DBConnection.getInstance().getConnection();
+        
+        String query = "UPDATE item SET Description = ?, PackSize = ?, UnitPrice = ?, QtyOnHand = ? WHERE ItemCode = ?";
+        
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        
+        preparedStatement.setString(1, item.getDescription());
+        preparedStatement.setString(2, item.getPackSize());
+        preparedStatement.setDouble(3, item.getUnitPrice());
+        preparedStatement.setInt(4, item.getQtyOnHand());
+        preparedStatement.setString(5, item.getItemCode());
+        
+        if(preparedStatement.executeUpdate() > 0) {
+            return "Success";
+        } else {
+            return "Fail";
+        }
     }
 }
