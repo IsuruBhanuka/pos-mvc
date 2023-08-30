@@ -406,13 +406,9 @@ public class ItemView extends javax.swing.JFrame {
     
     public void deleteItem() {
         try {
-            ItemModel item = new ItemModel(itemCodeText.getText(),
-                    descripText.getText(),
-                    packSizeText.getText(),
-                    Double.valueOf(unitPriceText.getText()),
-                    Integer.valueOf(qtyOnHandText.getText()));
+            String itemCode = itemCodeText.getText();
             
-            String response = itemController.deleteItem(item);
+            String response = itemController.deleteItem(itemCode);
             JOptionPane.showMessageDialog(this, response);
             clear();
             displayAllItems();
