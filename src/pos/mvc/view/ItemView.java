@@ -284,8 +284,7 @@ public class ItemView extends javax.swing.JFrame {
     }//GEN-LAST:event_updateItemButtonActionPerformed
 
     private void deleteItemButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteItemButtonActionPerformed
-        // TODO add your handling code here:
-    
+        deleteItem();
     }//GEN-LAST:event_deleteItemButtonActionPerformed
 
     private void itemTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_itemTableMouseClicked
@@ -400,6 +399,24 @@ public class ItemView extends javax.swing.JFrame {
             clear();
             displayAllItems();
         } catch (SQLException ex) { 
+            Logger.getLogger(ItemView.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+        }
+    }
+    
+    public void deleteItem() {
+        try {
+            ItemModel item = new ItemModel(itemCodeText.getText(),
+                    descripText.getText(),
+                    packSizeText.getText(),
+                    Double.valueOf(unitPriceText.getText()),
+                    Integer.valueOf(qtyOnHandText.getText()));
+            
+            String response = itemController.deleteItem(item);
+            JOptionPane.showMessageDialog(this, response);
+            clear();
+            displayAllItems();
+        } catch (SQLException ex) {
             Logger.getLogger(ItemView.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(this, ex.getMessage());
         }
