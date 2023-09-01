@@ -38,3 +38,5 @@ public class DBConnection {
         return connection;
     }
 }
+
+// Supermarket me database eke quary tika thiynwd oya gawa

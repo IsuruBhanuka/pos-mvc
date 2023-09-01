@@ -6,7 +6,7 @@ package pos.mvc;
 
 import pos.mvc.view.CustomerView;
 import pos.mvc.view.ItemView;
-import pos.mvc.view.OrderView
+import pos.mvc.view.OrderView;
 
 /**
  *
