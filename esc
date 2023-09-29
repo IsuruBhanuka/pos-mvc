@@ -1,0 +1,103 @@
+warning: in the working copy of 'src/pos/mvc/view/ItemView.form', LF will be replaced by CRLF the next time Git touches it
+[1mdiff --git a/nbproject/private/private.xml b/nbproject/private/private.xml[m
+[1mindex d8095a8..2275925 100644[m
+[1m--- a/nbproject/private/private.xml[m
+[1m+++ b/nbproject/private/private.xml[m
+[36m@@ -3,7 +3,13 @@[m
+     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>[m
+     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">[m
+         <group>[m
+[32m+[m[32m            <file>file:/F:/Bhanu%20Learning/IJSE/Java/Testing/Java%20Codes/Week%2016/MVC/pos-mvc/src/pos/mvc/view/ItemView.java</file>[m
+[32m+[m[32m            <file>file:/F:/Bhanu%20Learning/IJSE/Java/Testing/Java%20Codes/Week%2016/MVC/pos-mvc/src/pos/mvc/controller/ItemController.java</file>[m
+[32m+[m[32m            <file>file:/F:/Bhanu%20Learning/IJSE/Java/Testing/Java%20Codes/Week%2016/MVC/pos-mvc/src/pos/mvc/PosMvc.java</file>[m
+             <file>file:/F:/Bhanu%20Learning/IJSE/Java/Testing/Java%20Codes/Week%2016/MVC/pos-mvc/src/pos/mvc/view/CustomerView.java</file>[m
+[32m+[m[32m            <file>file:/F:/Bhanu%20Learning/IJSE/Java/Testing/Java%20Codes/Week%2016/MVC/pos-mvc/src/pos/mvc/model/ItemModel.java</file>[m
+[32m+[m[32m            <file>file:/F:/Bhanu%20Learning/IJSE/Java/Testing/Java%20Codes/Week%2016/MVC/pos-mvc/src/pos/mvc/controller/CustomerController.java</file>[m
+[32m+[m[32m            <file>file:/F:/Bhanu%20Learning/IJSE/Java/Testing/Java%20Codes/Week%2016/MVC/pos-mvc/src/pos/mvc/model/CustomerModel.java</file>[m
+         </group>[m
+     </open-files>[m
+ </project-private>[m
+[1mdiff --git a/src/pos/mvc/controller/ItemController.java b/src/pos/mvc/controller/ItemController.java[m
+[1mindex a3b2c75..c7a13d5 100644[m
+[1m--- a/src/pos/mvc/controller/ItemController.java[m
+[1m+++ b/src/pos/mvc/controller/ItemController.java[m
+[36m@@ -45,7 +45,7 @@[m [mpublic class ItemController {[m
+         [m
+         String query = "INSERT INTO item VALUES (?, ?, ?, ?, ?)";[m
+         [m
+[31m-        PreparedStatement preparedStatement = connection.prepareCall(query);[m
+[32m+[m[32m        PreparedStatement preparedStatement = connection.prepareStatement(query);[m
+         [m
+         preparedStatement.setString(1, item.getItemCode());[m
+         preparedStatement.setString(2, item.getDescription());[m
+[36m@@ -65,7 +65,7 @@[m [mpublic class ItemController {[m
+         [m
+         String query = "SELECT * FROM item WHERE ItemCode = ?";[m
+         [m
+[31m-        PreparedStatement preparedStatement = connection.prepareCall(query);[m
+[32m+[m[32m        PreparedStatement preparedStatement = connection.prepareStatement(query);[m
+         [m
+         preparedStatement.setString(1, itemCode);[m
+         [m
+[36m@@ -82,4 +82,24 @@[m [mpublic class ItemController {[m
+         }[m
+         return null;[m
+     }[m
+[32m+[m[41m    [m
+[32m+[m[32m    public String updateItem(ItemModel item) throws SQLException {[m
+[32m+[m[32m        Connection connection = DBConnection.getInstance().getConnection();[m
+[32m+[m[41m        [m
+[32m+[m[32m        String query = "UPDATE item SET Description = ?, PackSize = ?, UnitPrice = ?, QtyOnHand = ? WHERE ItemCode = ?";[m
+[32m+[m[41m        [m
+[32m+[m[32m        PreparedStatement preparedStatement = connection.prepareStatement(query);[m
+[32m+[m[41m        [m
+[32m+[m[32m        preparedStatement.setString(1, item.getDescription());[m
+[32m+[m[32m        preparedStatement.setString(2, item.getPackSize());[m
+[32m+[m[32m        preparedStatement.setDouble(3, item.getUnitPrice());[m
+[32m+[m[32m        preparedStatement.setInt(4, item.getQtyOnHand());[m
+[32m+[m[32m        preparedStatement.setString(5, item.getItemCode());[m
+[32m+[m[41m        [m
+[32m+[m[32m        if(preparedStatement.executeUpdate() > 0) {[m
+[32m+[m[32m            return "Success";[m
+[32m+[m[32m        } else {[m
+[32m+[m[32m            return "Fail";[m
+[32m+[m[32m        }[m
+[32m+[m[32m    }[m
+ }[m
+[1mdiff --git a/src/pos/mvc/view/ItemView.java b/src/pos/mvc/view/ItemView.java[m
+[1mindex f63d1ca..912dbcd 100644[m
+[1m--- a/src/pos/mvc/view/ItemView.java[m
+[1m+++ b/src/pos/mvc/view/ItemView.java[m
+[36m@@ -279,7 +279,7 @@[m [mpublic class ItemView extends javax.swing.JFrame {[m
+     }//GEN-LAST:event_saveItemButtonActionPerformed[m
+ [m
+     private void updateItemButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateItemButtonActionPerformed[m
+[31m-        // TODO add your handling code here:[m
+[32m+[m[32m        updateItem();[m
+        [m
+     }//GEN-LAST:event_updateItemButtonActionPerformed[m
+ [m
+[36m@@ -385,4 +385,23 @@[m [mpublic class ItemView extends javax.swing.JFrame {[m
+             JOptionPane.showMessageDialog(this, ex.getMessage());[m
+         }[m
+     }[m
+[32m+[m[41m    [m
+[32m+[m[32m    public void updateItem() {[m
+[32m+[m[32m        try {[m
+[32m+[m[32m            ItemModel item = new ItemModel([m
+[32m+[m[32m                    itemCodeText.getText(),[m
+[32m+[m[32m                    descripText.getText(),[m
+[32m+[m[32m                    packSizeText.getText(),[m
+[32m+[m[32m                    Double.valueOf(unitPriceText.getText()),[m
+[32m+[m[32m                    Integer.valueOf(qtyOnHandText.getText()));[m
+[32m+[m[41m            [m
+[32m+[m[32m            String response = itemController.updateItem(item);[m
+[32m+[m[32m            JOptionPane.showMessageDialog(this, response);[m
+[32m+[m[32m            clear();[m
+[32m+[m[32m            displayAllItems();[m
+[32m+[m[32m        } catch (SQLException ex) {[m[41m [m
+[32m+[m[32m            Logger.getLogger(ItemView.class.getName()).log(Level.SEVERE, null, ex);[m
+[32m+[m[32m            JOptionPane.showMessageDialog(this, ex.getMessage());[m
+[32m+[m[32m        }[m
+[32m+[m[32m    }[m
+ }[m
