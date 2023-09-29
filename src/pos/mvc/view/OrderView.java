@@ -449,7 +449,7 @@ public class OrderView extends javax.swing.JFrame {
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             OrderModel orderModel = new OrderModel(orderIDText.getText(), sdf.format(new Date()), custIDText.getText());
-            
+            System.out.println("order model in OrderView "+orderModel);
             String response = orderController.placeOrder(orderModel, orderDetailModel);
             JOptionPane.showMessageDialog(this, response);
         } catch (SQLException ex) {

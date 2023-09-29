@@ -21,6 +21,7 @@ import pos.mvc.db.DBConnection;
 public class OrderController {
     
     public String placeOrder(OrderModel orderModel, ArrayList<OrderDetailModel> orderDetailModels) throws SQLException {
+        System.out.println(orderModel);
         Connection connection = DBConnection.getInstance().getConnection();
    
         try {
@@ -31,8 +32,10 @@ public class OrderController {
             statementForOrder.setString(1, orderModel.getOrderID());
             statementForOrder.setString(2, orderModel.getOrderDate());
             statementForOrder.setString(3, orderModel.getCustID());
-            
-            if (statementForOrder.executeUpdate() > 0) {
+            int executeUpdate = statementForOrder.executeUpdate();
+            System.out.println("order saved!");
+            if (executeUpdate>0) {
+                
                 boolean isOrderDetailSaved = true;
                 String orderDetailQuery = "INSERT INTO orderDetail VALUES (?, ?, ?, ?)";
                 
@@ -47,31 +50,43 @@ public class OrderController {
                         isOrderDetailSaved = false;
                     }
                 }
+                System.out.println("Order detail saved");
                 if (isOrderDetailSaved) {
                     boolean isItemSaved = true;
                     String itemQuery = "UPDATE item SET QtyOnHand = QtyOnHand - ? WHERE itemCode = ?";
                     
                     for(OrderDetailModel orderDetail: orderDetailModels) {
                         PreparedStatement statementForItem = connection.prepareStatement(itemQuery);
+                        
                         statementForItem.setInt(1, orderDetail.getOrderQty());
                         statementForItem.setString(2, orderDetail.getItemCode());
                         
                         if (!(statementForItem.executeUpdate() > 0)) {
                             isItemSaved = false;
-                        }
+                        }  
+                      
                     }
-                    if (statementForOrder.executeUpdate() > 0) {
+                     if(isItemSaved){
+                          System.out.println("Transaction finished!");
                         connection.commit();
+                        System.out.println("committed");
+                  
                         return "Success";
-                    } else {
+                        }else{
                         connection.rollback();
-                        return "Item Update Error";
-                    }
+                        return "Error";
+                        }
+                    
+//                    if (statementForOrder.executeUpdate() > 0) {
+//                      
+//                    } else {
+//                        connection.rollback();
+//                        return "Item Update Error";
+//                    }
                 } else {
                     connection.rollback();
                     return "Order Detail Save Error";
                 }
-                
             } else {
                 connection.rollback();
                 return "Order Save Error";
